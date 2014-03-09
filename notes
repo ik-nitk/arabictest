@@ -1,0 +1,14 @@
+
+
+www :
+ 
+   /index :  description of project and links to categories
+   /test?category? : provide test to users
+   /search   : provide search for arabic phrases. (if phonic possible)
+
+
+
+Read implementation from:
+   https://github.com/alexksikes/wikitrivia
+also try to understand the CRUD implementation from Rails
+  
