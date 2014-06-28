@@ -1,15 +1,10 @@
 <!-- CSS goes in the document HEAD or added to your external stylesheet -->
 <style type="text/css">
 
-.imgclass img
-{
-margin:auto;
-}
-
 table.gridtable {
 	font-family: verdana,arial,sans-serif;
 	font-size:11px;
-	color:#00CC00;
+	color:#000000;
 	border-width: 1px;
 	border-color: #666666;
 	border-collapse: collapse;
@@ -19,7 +14,7 @@ table.gridtable th {
 	padding: 8px;
 	border-style: solid;
 	border-color: #666666;
-	background-color: #99CC00;
+	background-color: #99cc00;
 }
 table.gridtable td {
 	border-width: 1px;
