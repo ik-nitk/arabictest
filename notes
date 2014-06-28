@@ -2,13 +2,27 @@
 
 www :
  
-   /index :  description of project and links to categories
-   /test?category? : provide test to users
-   /search   : provide search for arabic phrases. (if phonic possible)
-
+GET    /index :  description of project and links to categories
+GET    /test?category? : provide test to users
+GET    /search   : provide search for arabic phrases. (if phonic possible)
+GET    /qaitems[.json]: list all the qa items
+        each qaitem : Q[arabic], A[english], tags
+POST   /qaitems[.json] : add qa item into the list
+GET    /qaitems/:id/edit[.json] : edit page for entry
+DELETE /qaitems/:id[.json] : delete entry with id
+POST   /qaitems/:id[.json] : udating the entry with id     
 
 
 Read implementation from:
    https://github.com/alexksikes/wikitrivia
 also try to understand the CRUD implementation from Rails
+
+
+create table for postgres:
+   create table qaitems (
+       id serial primary key ,
+       question text,
+       answer   text,
+       tags     text,
+       created timestamp default now());
   

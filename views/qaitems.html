@@ -1,0 +1,34 @@
+$def with (todos)
+<head>
+<link rel="stylesheet" type="text/css" href="static/styles.css" media="screen" />
+</head>
+<table class="gridtable">
+<tr>
+	<th>Arabic </th><th>English </th><th>Tags</th>
+</tr>
+$for todo in todos:
+    <tr>
+	<td>$todo.question</td>
+        <td>$todo.answer</td>
+        <td>$todo.tags</td>
+    </tr>
+</table>
+
+<table class="gridtable">
+<tr>
+	<th>Arabic </th><th>English </th><th>Tags</th>
+</tr>
+<form method="post" action="add">
+<tr>
+<td>
+<input type="text" name="question" /> 
+</td><td>
+<input type="text" name="answer" /> 
+</td><td>
+<input type="text" name="tags" /> 
+</td><td>
+<input type="submit" value="Add" />
+</td>
+</tr>
+</form>
+</table>
