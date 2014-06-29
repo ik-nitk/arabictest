@@ -1,0 +1,11 @@
+Mako==0.7.1
+MarkupSafe==0.15
+argparse==1.2.1
+httplib2==0.7.4
+lxml==2.3.5
+oauth==1.0.1
+pyOpenSSL==0.13
+virtualenv==1.10.1
+web.py==0.37
+wsgiref==0.1.2
+
