@@ -1,9 +1,33 @@
 import web
 import re
 import base64
+import sys
+
 
 render = web.template.render('views/')
-db = web.database(dbn='postgres', user='dbuser1', pw='dbuser1', db='en2ardb')
+db = 0
+
+def dburl2dict(url):
+    dbn, rest = url.split('://', 1)
+    user, rest = rest.split(':', 1)
+    pw, rest = rest.split('@', 1)
+    host, rest = rest.split(':', 1)
+    port, rest = rest.split('/', 1)
+    db = rest
+    return dict(dbn=dbn, user=user, pw=pw, db=db, host=host)
+
+
+if len(sys.argv) > 1:
+    herokudburl = ' postgres://qnunlyibgshzgq:ZeahOaJlroCMuFLsrEIIFfU97j@ec2-23-23-177-33.compute-1.amazonaws.com:5432/dbr9jkn9itng93'
+    d = dburl2dict(YOUR_DATABASE_URL)
+    db = web.database(dbn=d['dbn'],
+                    db=d['db'],
+                    user=d['user'],
+                    pw=d['pw'],
+                    host=d['host'],
+                    ) 
+else:
+    db = web.database(dbn='postgres', user='dbuser1', pw='dbuser1', db='en2ardb')
 
 urls = (
     '/', 'index',

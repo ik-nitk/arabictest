@@ -29,4 +29,8 @@ create table for postgres:
 [remote "heroku"]
         url = git@heroku.com:arabictest.git
         fetch = +refs/heads/*:refs/remotes/heroku/*
-  
+ 
+problem connecting DB in heroku.
+follow: https://devcenter.heroku.com/articles/heroku-postgresql
+https://github.com/hvnsweeting/webpyhero
+ 
