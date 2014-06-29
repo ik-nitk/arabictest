@@ -25,4 +25,8 @@ create table for postgres:
        answer   text,
        tags     text,
        created timestamp default now());
+
+[remote "heroku"]
+        url = git@heroku.com:arabictest.git
+        fetch = +refs/heads/*:refs/remotes/heroku/*
   
