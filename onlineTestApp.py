@@ -2,7 +2,6 @@ import web
 import re
 import base64
 
-
 render = web.template.render('views/')
 db = web.database(dbn='postgres', user='dbuser1', pw='dbuser1', db='en2ardb')
 
@@ -73,6 +72,7 @@ class Login:
 
 if __name__ == "__main__":
     app = web.application(urls, globals())
-    port = int(os.environ.get('PORT', 8080))
-    app.run(host='0.0.0.0', port=port)
+    #port = int(os.environ.get('PORT', 8080))
+    # If called from the command line, it will start an HTTP server on the port named in the first command line argument, or, if there is no argument, on port 8080.
+    app.run()
 
