@@ -19,7 +19,7 @@ def dburl2dict(url):
 
 if len(sys.argv) > 1:
     herokudburl = ' postgres://qnunlyibgshzgq:ZeahOaJlroCMuFLsrEIIFfU97j@ec2-23-23-177-33.compute-1.amazonaws.com:5432/dbr9jkn9itng93'
-    d = dburl2dict(YOUR_DATABASE_URL)
+    d = dburl2dict(herokudburl)
     db = web.database(dbn=d['dbn'],
                     db=d['db'],
                     user=d['user'],
