@@ -34,12 +34,26 @@ urls = (
     '/add','add',
     '/qaitems','qaitems', 
     '/search','search',
+    '/test','test',
     '/login' , 'Login' 
 )
 
 class index:
     def GET(self):
         return render.index()
+
+class test:
+    def GET(self):
+        querystr = ''
+        i = web.input()
+        #if len(i.txt) and i.txt[0] < u'~':
+            #english  
+        #    querystr = 'select * from qaitems where answer like \'%' + i.txt + '%\''
+        #else:
+        querystr = 'select * from qaitems order by random() limit 15'
+        todos = db.query(querystr); 
+        return render.test(todos)
+
 
 
 class search:

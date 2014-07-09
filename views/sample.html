@@ -1,0 +1,206 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+	<title>My Page</title> 
+	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+<script>
+var currentQuestion = null;
+var questionIndex = 0;
+ 
+// Your list of questions. Each question has an answer (either a,b or c)
+// and then a set of "options" in the question
+var   qalist = [ 
+       {'q': 'q1', 'a': 'a1'},
+       {'q': 'q2', 'a': 'a2'},
+       {'q': 'q3', 'a': 'a3'},
+       {'q': 'q4', 'a': 'a4'},
+       {'q': 'q5', 'a': 'a5'},
+       {'q': 'q6', 'a': 'a6'},
+       {'q': 'q7', 'a': 'a7'},
+       {'q': 'q8', 'a': 'a8'},
+       {'q': 'q9', 'a': 'a9'},
+       {'q': 'q10', 'a': 'a10'},
+   ];
+
+var questions = [];
+/*
+  { 
+      'answer': '2',
+      'question': 'What doesn\'t fit?',
+      options: ['Dog', 'Capybara', 'Pizza']
+  },
+  { 
+      'answer': '1',
+      'question': 'What is 9*9',
+      options: ['9', '81', '99']
+  }
+];
+ */
+// Detect when the submit button is clicked and check if the question
+// was answered correctly
+function nextHandler(e) {
+    e.preventDefault();
+//http://stackoverflow.com/questions/15839169/how-to-get-value-of-selected-radio-button
+correct=0;
+for(var j=0;j<questions.length;j++){ 
+    currentQuestion = questions[j % questions.length];
+     var checked = $("input[name='qa"+j+"']:checked", $(quiz));
+     if(checked.length === 0) {
+        html = "</h2><p>" + "Please answer the question : " + (j+1) + "</p></h2>";
+        $(missdiv).html(html);
+        $.mobile.changePage('#warning', {
+            transition: 'pop',
+            changeHash: true,
+            role: 'dialog'
+        });
+      // window.alert("Please answer the question : " + (j+1));
+      return ;
+     } 
+     if(currentQuestion.answer == checked.val()){
+        correct++;
+     }
+}    
+     html = "</h2><p>" + "Your score is " + correct + " of " + questions.length + "</p></h2>";
+     $(scorediv).html(html);
+     $.mobile.changePage('#scorepopup', {
+            transition: 'pop',
+            changeHash: true,
+            role: 'dialog'
+     });
+
+    //alert("Your score ->  " + correct);
+    //var val = $('#questions').find('input:checked').val();
+    //if(currentQuestion) {
+    //    if(currentQuestion.answer == val) {
+    //        alert("Nice work!");
+    //        showQuestion();
+    //    } else {
+    //        alert("Nope!");
+    //    }
+    //}
+    return true;
+}
+// Set the value of an option in the question
+function setRadioLabel(radioId, text) {
+     $('label[for="' + radioId + '"]').find('span.ui-btn-text').text(text);
+};
+ 
+
+function nextButton() {
+   return "<a href='' class='quiztest' data-role='button'>Test</a>";	
+}
+
+function buildQuestions() {
+    
+   var selected = [];
+
+   /* build 5	 multiple choice quistions */
+   for(var i=0;i < 5;i++){
+      /*select random from qalist*/
+      var x = Math.floor((Math.random() * qalist.length));;
+      
+      while( selected.indexOf( x ) != -1){
+         x = Math.floor((Math.random() * qalist.length));
+      }
+      selected.push(x);
+      /*prepare question*/
+     random = { 'question': qalist[x].q, 'answer': Math.floor((Math.random() * 4)) , 'options': [] };
+
+     for (var j=0; j<4;j++){
+         if(j== random.answer){
+           random.options.push(qalist[x].a);
+         }else{
+           random.options.push(qalist[(x+j+1)%qalist.length].a)
+         }
+     }
+     questions.push(random);
+   }
+}
+
+// Show a random question
+function showQuestions() {
+    questions = [];
+    buildQuestions();
+    var html = "</h2><form><div data-role='fieldcontain'>";
+    var questionIndex=0; 
+for(var j=0;j<questions.length;j++){
+    // Grab next question, and increment so we get a new one next time
+    var random = questions[questionIndex++ % questions.length];
+    
+    html += "<fieldset data-role='controlgroup'><h2>" + random.question + "</h2><div>";
+
+    for(var i=0; i<random.options.length; i++) {
+	html += "<input type='radio' name='qa"+j+"' id='qa_"+i+""+j+"' value='"+i+"'/><label for='qa_"+i+""+j+"'>" + random.options[i] + "</label>";
+    }
+    html += "</div></fieldset>"
+}
+    html += "</div></form>" + nextButton();
+
+    $(quiz).html(html).trigger('create');
+    $(quiz).off("click", ".quiztest", nextHandler);
+    $(quiz).on("click", ".quiztest", nextHandler); 
+    
+    currentQuestion = random;
+};
+
+/* global $,document,console,quizMaster */
+$(document).ready(function() {
+    /*install close handler*/
+    $(document).on('click','#lnt',function () {
+        $('#scorepopup').dialog('close');
+        showQuestions();
+    });
+    $(document).on('click','#retest',function () {
+        $('#scorepopup').dialog('close');
+        showQuestions();
+    }); 
+    $(document).on('click','#missback',function () {
+        $('#warning').dialog('close');
+        
+    }); 
+   showQuestions() ;
+});
+</script>
+
+</head> 
+<body> 
+
+<div data-role="page" id="one">
+
+	<div data-role="header">
+		<h1>Test</h1>
+	</div><!-- /header -->
+
+	<div id="quiz"  data-role="content">	
+	</div><!-- /content -->
+</div><!-- /page -->
+
+<div data-role="dialog" id="scorepopup" >
+     <div data-role="header">
+         <h3>Score</h3>
+     </div>
+    <div data-role="content">
+    <div id="scorediv">
+    </div> 
+    <button data-role="button" data-mini="true" data-inline="true" id="retest">retest</button>
+    <button data-role="button" data-mini="true" data-inline="true" id="lnt">load new test</button>
+    </div> 
+</div>
+
+<div data-role="dialog" id="warning" >
+     <div data-role="header">
+         <h3>Missing !!</h3>
+     </div>
+    <div data-role="content">
+    <div id="missdiv">
+    </div> 
+    <button data-role="button" data-mini="true" data-inline="true" id="missback">ok</button>
+    </div> 
+</div>
+
+
+</body>
+</html>
