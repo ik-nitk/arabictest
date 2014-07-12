@@ -2,8 +2,12 @@ $def with (todos)
 <!DOCTYPE html> 
 <html> 
 	<head> 
-	<title>My Page</title> 
-	<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title> 
+Arabic-english phrase test 
+ </title>
+	
+       <link rel="stylesheet" type="text/css" href="static/styles.css" media="screen" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
 	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
 	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
@@ -37,8 +41,8 @@ $for todo in todos:
 <div data-role="content">
 <div id="scorediv">
 </div> 
-<button data-role="button" data-mini="true" data-inline="true" id="retest">retest</button>
-<a href="test" data-role="button" data-mini="true" data-inline="true" id="lnt">load new test</a>
+<button data-role="button" id="retest">retest</button>
+<a href="test" data-role="button" data-ajax="false" id="lnt">load new test</a>
 </div> 
 </div>
 

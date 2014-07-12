@@ -94,7 +94,8 @@ function showQuestions() {
       // Grab next question, and increment so we get a new one next time
       var random = questions[questionIndex++ % questions.length];
 
-      html += "<fieldset data-role='controlgroup'><h2>" + random.question + "</h2><div>";
+      html += "<fieldset data-role='controlgroup'><div class=\"arab\"><h1>" 
+                         + random.question + "</h1></div><div>";
 
       for(var i=0; i<random.options.length; i++) {
 	 html += "<input type='radio' name='qa"+j+"' id='qa_"+i+""+j+"' value='"+i+"'/><label for='qa_"+i+""+j+"'>" + random.options[i] + "</label>";
