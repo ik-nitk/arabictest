@@ -62,7 +62,7 @@ class search:
         i = web.input()
         if len(i.txt) and i.txt[0] < u'~':
             #english  
-            querystr = 'select * from qaitems where answer like \'%' + i.txt + '%\''
+            querystr = 'select * from qaitems where upper(answer) like \'%' + i.txt.upper() + '%\''
         else:
             querystr = 'select * from qaitems where question like \'%' + i.txt + '%\''
         todos = db.query(querystr); 
