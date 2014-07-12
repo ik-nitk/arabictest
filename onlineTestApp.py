@@ -79,8 +79,14 @@ class qaitems:
 class add:
     def POST(self):
         i = web.input()
-        n = db.insert('qaitems',question=i.question,answer=i.answer,tags=i.tags)
-        raise web.seeother('/qaitems')
+        #fisrt check if entry exist
+        querystr = 'select 1 from qaitems where answer = \'' + i.answer + '\' limit 1'
+        t = db.query(querystr)
+        if len(t):
+           raise web.seeother('/qaitems')
+        else: 
+           n = db.insert('qaitems',question=i.question,answer=i.answer,tags=i.tags)
+           raise web.seeother('/qaitems')
 
 #poor auth. but just a temp fix
 allowed = (
