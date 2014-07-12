@@ -1,0 +1,18 @@
+$def with (todos)
+<head>
+<link rel="stylesheet" type="text/css" href="static/styles.css" media="screen" />
+</head>
+<table class="gridtable">
+<tr>
+	<th>Arabic </th><th>English </th>
+</tr>
+$for todo in todos:
+    <tr>
+	<td>$todo.question</td>
+        <td>$todo.answer</td>
+    </tr>
+</table>
+
+<br>
+<br>
+

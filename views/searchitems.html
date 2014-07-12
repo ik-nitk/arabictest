@@ -1,17 +1,19 @@
 $def with (todos)
 <head>
-<link rel="stylesheet" type="text/css" href="static/styles.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="static/styles.css" media="screen" />
+        <meta name="viewport" content="width=device-width, initial-scale=1"> 
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
+	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
 </head>
-<table class="gridtable">
-<tr>
-	<th>Arabic </th><th>English </th>
-</tr>
+<ul class="ui-listview ui-shadow tab" data-role="listview" data-inset="true">
 $for todo in todos:
-    <tr>
-	<td>$todo.question</td>
-        <td>$todo.answer</td>
-    </tr>
-</table>
+    <li>
+    <h2 class="ar1">$todo.question</h2>
+    <p ><strong>$todo.answer</strong></p>
+    </li>
+
+</ul>
 
 <br>
 <br>
