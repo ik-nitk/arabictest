@@ -84,8 +84,11 @@ class search:
             querystr = 'select * from qaitems where upper(answer) like \'%' + i.txt.upper() + '%\''
         else:
             querystr = 'select * from qaitems where question like \'%' + i.txt + '%\''
-        todos = db.query(querystr); 
-        return render.searchitems(todos)
+        todos = db.query(querystr);
+        if len(todo):   
+            return render.searchitems(todos)
+        else:
+            return "Not found !!!"
 
 class qaitems:
     def GET(self):
