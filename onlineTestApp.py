@@ -67,11 +67,11 @@ class test:
             #english  
         #    querystr = 'select * from qaitems where answer like \'%' + i.txt + '%\''
         #else:
-        if isMobile():
-             return "this is mobile...work in progress!!"
         querystr = 'select * from qaitems order by random() limit 15'
         todos = db.query(querystr); 
-        return render.test(todos)
+        if isMobile():
+            return render.test(todos,ismobile=True)
+        return render.test(todos,ismobile=False)
 
 
 

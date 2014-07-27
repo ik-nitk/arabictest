@@ -1,4 +1,4 @@
-$def with (todos)
+$def with (todos,ismobile)
 <!DOCTYPE html> 
 <html> 
 	<head> 
@@ -24,17 +24,35 @@ $for todo in todos:
 </head> 
 <body> 
 
+$if ismobile:
+    <div data-role="page" id="zero">
+    <div data-role="content">
+        <div>
+          <p>  </p>
+         <ul data-role="listview"  data-theme="c" data-dividertheme="d">
+           <li data-theme="a"><a href="#one" > Take test </a></li>
+           <li><a href="#two"> Practice A-E</a></li>	
+           <li><a href="#three"> Practice E-A</a></li>
+           <li><a href="test" data-ajax="false"> Load new test</a></li>
+         </ul>
+        </div>	
+    </div><!-- /content -->
+    </div><!-- /page -->
+
 <div data-role="page" id="one">
 
   <div data-role="header" data-theme="c">
-    <h1>Test : translate the following</h1>
+      <h1>Test : translate the following</h1>
    </div><!-- /header -->
 
   <div data-role="content">
      <div style="width: 100%; overflow: hidden;">	
-        <div id="quiz" class="cont-prim">
-         </div>
 
+         <div id="quiz" 
+         $if not ismobile:
+           class="cont-prim">
+         </div>
+$if not ismobile:
         <div class="cont-sec">
           <p>  </p>
          <ul data-role="listview"  data-theme="c" data-dividertheme="d">
@@ -59,6 +77,7 @@ $for todo in todos:
       <div id="a_e" class="cont-prim">
       </div>
 
+$if not ismobile:
       <div class="cont-sec">
           <p>  </p>
        <ul data-role="listview"  data-theme="c" data-dividertheme="d">
@@ -84,6 +103,7 @@ $for todo in todos:
       <div id="e_a" class="cont-prim">
       </div>
 
+$if not ismobile:
       <div class="cont-sec">
           <p>  </p>
         <ul data-role="listview"  data-theme="c" data-dividertheme="d">
