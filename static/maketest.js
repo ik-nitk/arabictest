@@ -111,6 +111,36 @@ function showQuestions() {
    currentQuestion = random;
 };
 
+function build_a_e(){
+
+   var html = "<h4>Guess the english phrase for following. Click (+) to know the answer</h4>";
+
+   for(var j=0; j<qalist.length;j++){
+      html += "<div data-role=\"collapsible\">";
+      html +=    "<h3 style=\"font-family: 'Traditional Arabic';\">" + qalist[j].q + "</h3>";
+      html +=    "<p>" + qalist[j].a + "</p>";
+      html += "</div>"       
+   }
+
+    $(a_e).html(html).trigger('create');
+}
+
+function build_e_a(){
+
+   var html = "<h4>Guess the arabic phrase for following. Click (+) to know the answer</h4>";
+
+   for(var j=0; j<qalist.length;j++){
+      html += "<div data-role=\"collapsible\">";
+      html +=    "<h3 class='ar1'>" + qalist[j].a + "</h3>";
+      html +=    "<p class='ar1'>" + qalist[j].q + "</p>";
+      html += "</div>"       
+   }
+
+    $(e_a).html(html).trigger('create');
+}
+
+
+
 /* global $,document,console,quizMaster */
 $(document).ready(function() {
       /*install close handler*/
@@ -123,6 +153,8 @@ $(document).ready(function() {
 
 	 }); 
       showQuestions() ;
-      });
+      build_a_e();
+      build_e_a();
+   });
 
 -->

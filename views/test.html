@@ -26,35 +26,98 @@ $for todo in todos:
 
 <div data-role="page" id="one">
 
-<div data-role="header" >
-<h1>Test : translate the following</h1>
-</div><!-- /header -->
+  <div data-role="header" data-theme="c">
+    <h1>Test : translate the following</h1>
+   </div><!-- /header -->
 
-<div id="quiz"  data-role="content">	
-</div><!-- /content -->
+  <div data-role="content">
+     <div style="width: 100%; overflow: hidden;">	
+        <div id="quiz" class="cont-prim">
+         </div>
+
+        <div class="cont-sec">
+          <p>  </p>
+         <ul data-role="listview"  data-theme="c" data-dividertheme="d">
+           <li data-theme="a"><a href="#one" > Take test </a></li>
+           <li><a href="#two"> Practice A-E</a></li>	
+           <li><a href="#three"> Practice E-A</a></li>
+           <li><a href="test" data-ajax="false"> Load new test</a></li>
+         </ul>
+        </div>	
+    </div>
+  </div><!-- /content -->
 </div><!-- /page -->
 
+<div data-role="page" id="two">
+
+   <div data-role="header" data-theme="c">
+     <h1>Practice Arabic to English</h1>
+   </div><!-- /header -->
+
+   <div data-role="content">	
+     <div style="width: 100%; overflow: hidden;">	
+      <div id="a_e" class="cont-prim">
+      </div>
+
+      <div class="cont-sec">
+          <p>  </p>
+       <ul data-role="listview"  data-theme="c" data-dividertheme="d">
+        <li><a href="#one" > Take test </a></li>
+        <li data-theme="a"><a href="#two"> Practice A-E</a></li>	
+        <li><a href="#three"> Practice E-A</a></li>
+        <li><a href="test" data-ajax="false"> Load new test</a></li>
+       </ul>
+      </div>	
+     </div> 
+   </div><!-- /content -->
+</div><!-- /page -->
+
+
+<div data-role="page" id="three">
+
+   <div data-role="header" data-theme="c">
+     <h1>Practice English to Arabic</h1>
+   </div><!-- /header -->
+
+   <div data-role="content">	
+     <div style="width: 100%; overflow: hidden;">	
+      <div id="e_a" class="cont-prim">
+      </div>
+
+      <div class="cont-sec">
+          <p>  </p>
+        <ul data-role="listview"  data-theme="c" data-dividertheme="d">
+         <li><a href="#one" > Take test </a></li>
+         <li><a href="#two"> Practice A-E</a></li>	
+         <li data-theme="a"><a href="#three"> Practice E-A</a></li>
+         <li><a href="test" data-ajax="false"> Load new test</a></li>
+       </ul>
+      </div>	
+     </div>	
+   </div><!-- /content -->
+</div><!-- /page -->
+ 
 <div data-role="dialog" id="scorepopup" >
-<div data-role="header">
-<h3>Score</h3>
-</div>
-<div data-role="content">
-<div id="scorediv">
-</div> 
-<button data-role="button" id="retest">retest</button>
-<a href="test" data-role="button" data-ajax="false" id="lnt">load new test</a>
-</div> 
+  <div data-role="header">
+  <h3>Score</h3>
+   </div>
+   <div data-role="content">
+   <div id="scorediv">
+   </div> 
+   <button data-role="button" id="retest">retest</button>
+   <a href="test" data-role="button" data-ajax="false" id="lnt">load new test</a>
+   </div> 
 </div>
 
 <div data-role="dialog" id="warning" >
-<div data-role="header">
-<h3>Missing !!</h3>
-</div>
-<div data-role="content">
-<div id="missdiv">
-</div> 
-<button data-role="button" data-mini="true" data-inline="true" id="missback">ok</button>
-</div> 
+   <div data-role="header">
+    <h3>Missing !!</h3>
+   </div>
+   <div data-role="content">
+   <div id="missdiv">
+   </div> 
+    <button data-role="button" data-mini="true" data-inline="true" id="missback">ok</button>
+   </div> 
 </div>
 
 

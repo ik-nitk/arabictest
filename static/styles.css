@@ -32,4 +32,12 @@ table.gridtable td {
   font-family: "Traditional Arabic", serif;  
   font-size:150%;
 }
+.cont-sec {
+   width   : 20%;
+   float   : left;
+}
+.cont-prim {
+   width   : 75%;
+   float   : right;
+}
 </style>
