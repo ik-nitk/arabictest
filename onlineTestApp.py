@@ -85,7 +85,7 @@ class search:
         else:
             querystr = 'select * from qaitems where question like \'%' + i.txt + '%\''
         todos = db.query(querystr);
-        if len(todo):   
+        if len(todos):   
             return render.searchitems(todos)
         else:
             return "Not found !!!"

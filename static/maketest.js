@@ -144,11 +144,11 @@ function build_e_a(){
 /* global $,document,console,quizMaster */
 $(document).ready(function() {
       /*install close handler*/
-      $(document).on('click','#retest',function () {
+      $(document).bind('click','#retest',function () {
 	 $('#scorepopup').dialog('close');
 	 showQuestions();
 	 }); 
-      $(document).on('click','#missback',function () {
+      $(document).bind('click','#missback',function () {
 	 $('#warning').dialog('close');
 
 	 }); 

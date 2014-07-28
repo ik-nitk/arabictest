@@ -8,9 +8,9 @@ Arabic-english phrase test
 	
        <link rel="stylesheet" type="text/css" href="static/styles.css" media="screen" />
         <meta name="viewport" content="width=device-width, initial-scale=1"> 
-	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
-	<script src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.0.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
 <script>
 // Your list of questions. Each question has an answer (either a,b or c)
 // and then a set of "options" in the question
@@ -74,7 +74,9 @@ $if not ismobile:
 
    <div data-role="content">	
      <div style="width: 100%; overflow: hidden;">	
-      <div id="a_e" class="cont-prim">
+      <div id="a_e" 
+         $if not ismobile:
+             class="cont-prim">
       </div>
 
 $if not ismobile:
@@ -100,7 +102,9 @@ $if not ismobile:
 
    <div data-role="content">	
      <div style="width: 100%; overflow: hidden;">	
-      <div id="e_a" class="cont-prim">
+       <div id="e_a" 
+         $if not ismobile:
+              class="cont-prim">
       </div>
 
 $if not ismobile:
