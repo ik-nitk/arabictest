@@ -144,10 +144,15 @@ function build_e_a(){
 /* global $,document,console,quizMaster */
 $(document).ready(function() {
       /*install close handler*/
-      $(document).bind('click','#retest',function () {
-	 $('#scorepopup').dialog('close');
-	 showQuestions();
-	 }); 
+      //var el = document.getElementById("retest");
+      //el.attachEvent('onclick',function () {
+      //   $('#scorepopup').dialog('close');
+      //   showQuestions();
+      //   });
+      //$(document).bind('click','#retest',function () {
+      //  $('#scorepopup').dialog('close');
+      //	 showQuestions();
+      //	 }); 
       $(document).bind('click','#missback',function () {
 	 $('#warning').dialog('close');
 

@@ -52,8 +52,8 @@ def isMobile():
         b = reg_b.search(user_agent)
         v = reg_v.search(user_agent[0:4])
         if b or v:
-            return 1
-    return 0    
+            return True 
+    return False    
 
 class index:
     def GET(self):
@@ -69,9 +69,7 @@ class test:
         #else:
         querystr = 'select * from qaitems order by random() limit 15'
         todos = db.query(querystr); 
-        if isMobile():
-            return render.test(todos,ismobile=True)
-        return render.test(todos,ismobile=False)
+        return render.test(todos,ismobile=isMobile())
 
 
 
