@@ -62,14 +62,15 @@ class index:
 class test:
     def GET(self):
         querystr = ''
+        txt = '' 
         i = web.input()
-        #if len(i.txt) and i.txt[0] < u'~':
-            #english  
-        #    querystr = 'select * from qaitems where answer like \'%' + i.txt + '%\''
-        #else:
-        querystr = 'select * from qaitems order by random() limit 15'
+        if hasattr(i,"txt"):
+            txt = i.txt
+            querystr = 'select * from qaitems where tags like \'%' + str(i.txt) + '%\' order by random() limit 15'
+        else:
+            querystr = 'select * from qaitems order by random() limit 15'
         todos = db.query(querystr); 
-        return render.test(todos,ismobile=isMobile())
+        return render.test(todos,txt,ismobile=isMobile())
 
 
 
@@ -77,7 +78,7 @@ class search:
     def GET(self):
         querystr = ''
         i = web.input()
-        if len(i.txt) and i.txt[0] < u'~':
+        if hasattr(i,"txt") and i.txt[0] < u'~':
             #english  
             querystr = 'select * from qaitems where upper(answer) like \'%' + i.txt.upper() + '%\''
         else:
