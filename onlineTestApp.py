@@ -2,7 +2,7 @@ import web
 import re
 import base64
 import sys
-
+import json
 
 render = web.template.render('views/')
 db = 0
@@ -42,9 +42,30 @@ urls = (
     '/qaitems','qaitems', 
     '/search','search',
     '/test','test',
-    '/login' , 'Login' 
+    '/login' , 'Login', 
+    '/morphology' , 'morphology' 
 )
 
+import model 
+
+class morphology:
+    def GET(self):
+        querystr = ''
+        i = web.input()
+        web.header('Content-Type', 'application/json')
+        web.header('Access-Control-Allow-Origin', '*')
+        web.header('Access-Control-Allow-Credentials', 'true')
+        if hasattr(i,"txt") and i.txt[0] < u'~':
+            #english  
+            return "english not supported"
+        else:
+            p = model.get_morphology(i.txt)
+            morph = []
+            for i in p:
+                d = {'word':i.qword,'morphology1':i.morphology1,'morphology2':i.morphology2,'meaning':i.meaning,'root':i.root,'example':i.example};
+                morph.append(d)
+            #arrange in expected format
+            return json.dumps(morph)
 
 def isMobile():
     if web.ctx.env.has_key('HTTP_USER_AGENT'):

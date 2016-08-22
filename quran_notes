@@ -1,0 +1,91 @@
+Quran dictionary web scrapping
+
+from:
+   http://corpus.quran.com/qurandictionary.jsp
+
+#cat get_wlists.py
+
+from bs4 import BeautifulSoup
+import sys
+import os
+
+try:
+ f = open(sys.argv[1],'r+')
+ page = f.read()
+except:
+  print 'page not found ' + sys.argv[1] + "\n"
+  exit(1)
+
+soup=BeautifulSoup(page , 'html.parser')
+nv = soup.find("div",{"class": "sectionArea"})
+
+for elem in nv.findAll('a'):
+   print 'http://corpus.quran.com/qurandictionary.jsp'+elem.get('href')
+
+:::::::
+
+#python get_wlists.py main.html > list.txt
+
+#replace 'sectionArea' —> 'navigationPane' 
+
+#for i in `cat list.txt`; do  curl $i > tmp.html; python get_wlists.py tmp.html >> wlist.txt; done
+
+
+Get the transliteration table
+
+from arabic —> bulkwater
+
+a2b = {u'\u0621':"'",u'\u0622':"|", u'\u0623':'>', u'\u0624':'&', u'\u0625':'<', u'\u0626':'}', u'\u0627':'A', u'\u0628':'b', u'\u0629':'p', u'\u062A':'t', u'\u062B':'v', u'\u062C':'j', u'\u062D':'H', u'\u062E':'x', u'\u062F':'d', u'\u0630':'*', u'\u0631':'r', u'\u0632':'z', u'\u0633':'s', u'\u0634':'$', u'\u0635':'S', u'\u0636':'D', u'\u0637':'T', u'\u0638':'Z', u'\u0639':'E', u'\u063A':'g', u'\u0640':'_', u'\u0641':'f', u'\u0642':'q', u'\u0643':'k', u'\u0644':'l', u'\u0645':'m', u'\u0646':'n', u'\u0647':'h', u'\u0648':'w', u'\u0649':'Y', u'\u064A':'y', u'\u064B':'F', u'\u064C':'N', u'\u064D':'K', u'\u064E':'a', u'\u064F':'u', u'\u0650':'i', u'\u0651':'~', u'\u0652':'o', u'\u0653':'^', u'\u0654':'#', u'\u0670':'`', u'\u0671':'{', u'\u06DC':':', u'\u06DF':'@', u'\u06E0':'"', u'\u06E2':'[', u'\u06E3':';', u'\u06E5':',', u'\u06E6':'.', u'\u06E8':'!', u'\u06EA':'-', u'\u06EB':'+', u'\u06EC':'%', u'\u06ED':']',u' ':' ',u'(':'(',u')':')',u'[':'[',u']':']'}
+
+b2a = {value:key for key, value in a2b.iteritems()}
+
+junk = {u'\udbff':' ', u'\udc02':' '}
+
+vowels = {u'\u064B':'F', u'\u064C':'N', u'\u064D':'K', u'\u064E':'a', u'\u064F':'u', u'\u0650':'i', u'\u0651':'~', u'\u0652':'o', u'\u0653':'^', u'\u0654':'#', u'\u0670':'`', u'\u0671':'{', u'\u06DC':':', u'\u06DF':'@', u'\u06E0':'"', u'\u06E2':'[', u'\u06E3':';', u'\u06E5':',', u'\u06E6':'.', u'\u06E8':'!', u'\u06EA':'-', u'\u06EB':'+', u'\u06EC':'%', u'\u06ED':']'}
+
+rvowels = {value:key for key, value in vowels.iteritems()}
+
+def get_bulkwater(word):
+   return ''.join([a2b[x] for x in word.decode('utf-8')])
+
+def remove_vowels(word):
+   return ''.join([x for x in word if x not in rvowels])
+
+
+database:
+  create table quran_dict( qid integer primary key, 
+                           root text,
+                           qword text ,
+                           qword_nv text ,
+                           example text ,
+                           meaning text ,
+                           morphology1 text ,
+                           morphology2 text);
+  pragma encoding = "UTF-8"; 
+
+
+cat dict_pages/wlist.txt | while read line; 
+do     
+    echo "getting page $line"; 
+    curl $line > dict_pages/tmp.html
+    python get_words.py dict_pages/tmp.html 
+done
+
+
+references:
+  http://corpus.quran.com/documentation/morphologicalfeatures.jsp
+
+  http://samples.sainsburysebooks.co.uk/9781134066612_sample_644579.pdf
+
+  https://catalog.ldc.upenn.edu/LDC2004L02
+  http://www.lexanalysis.com/araflex/araflex.html
+
+  Try :
+   Morphological 
+    curl —data "queryOption=queryByArabicWord&queryToken=wbktbhm&submit=submit" http://lexanalysis.com/cgi-bin/araflex.pl
+    
+   English to arabic
+    curl —data "queryOption=queryByEnglishTerm&queryToken=books&englishTerm=books&submit=submit" http://lexanalysis.com/cgi-bin/araflex.pl
+
+    
+
