@@ -1,0 +1,58 @@
+$def with (morph, word)
+<!DOCTYPE html> 
+<html>
+<head>
+<title> 
+Arabic morphology for $word
+</title>
+ <meta name="description" content="arabic morphology">
+<style>
+
+td, th {
+        border: 1px solid #dddddd;
+            text-align: left;
+                padding: 8px;
+}
+
+tr:nth-child(even) {
+        background-color: #dddddd;
+   }
+</style>
+
+</head>
+<body>
+       <a href="http://corpus.quran.com/wordbyword.jsp">Quran corpus</a>
+$for i in morph:
+    <table>
+           <tr>
+               <th>Word</th>
+               <th>root</th>
+               <th>meaning</th>
+               <th>Morphological Analysis</th>
+          </tr>
+    <tr>
+    <td>
+       <p>$word</p>
+       </td>
+       <td>
+         <p>$i.root</p>
+       </td>
+       <td>
+         <p>$i.meaning</p>
+       </td>
+          $:i.morphology2
+       <tr>
+       <td>
+         <h4 class="ar1">example</h4>
+         <p>$i.example</p>
+       </td>
+       </tr>
+    </table>
+       <a href="http://www.lexanalysis.com/araflex/araflex.html">Araflex</a>
+       <table>
+           <tr><th>Nr</th><th>Query</th><th>Base</th><th>Root</th><th>Morphological Analysis</th>
+           </tr>
+           $:i.morphology1
+      </table>
+</body>
+</html>

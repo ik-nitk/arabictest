@@ -21,16 +21,18 @@ vowels = {u'\u064B':'F', u'\u064C':'N', u'\u064D':'K', u'\u064E':'a', u'\u064F':
 rvowels = {value:key for key, value in vowels.iteritems()}
 
 def get_bulkwater(word):
-   #return ''.join([a2b[x] for x in word.decode('utf-8')])
    return ''.join([a2b[x] for x in word])
+
+def get_arabFrombulk(word):
+   return ''.join([b2a[x] for x in word])
 
 def remove_vowels(word):
    return ''.join([x for x in word if x not in rvowels])
 
 def get_morphology(w):
     word=get_bulkwater(w) 
-    r= db.select('quran_dict', where="qword='"+word+"'")
+    r= db.select('quran_dict', where="qword='"+word+"'",order='random()',limit=1)
     if bool(r) == False:
        word=remove_vowels(word)
-       r= db.select('quran_dict', where="qword_nv='"+word+"'")
+       r= db.select('quran_dict', where="qword_nv='"+word+"'",order='random()',limit=1)
     return r

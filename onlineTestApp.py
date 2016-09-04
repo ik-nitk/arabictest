@@ -1,8 +1,12 @@
 import web
+from bs4 import BeautifulSoup
 import re
 import base64
 import sys
 import json
+import os
+import urllib
+import urllib2
 
 render = web.template.render('views/')
 db = 0
@@ -48,24 +52,59 @@ urls = (
 
 import model 
 
+class mydict(dict):
+     pass
+
+def get_lex_morph(word):
+   url = 'http://lexanalysis.com/cgi-bin/araflex.pl'
+   values = {'queryOption':'queryByArabicWord',
+             'queryToken': word,
+             'submit':'submit'} 
+   data = urllib.urlencode(values)
+   req = urllib2.Request(url, data)
+   response = urllib2.urlopen(req)
+   page = response.read()
+   soup=BeautifulSoup(page , 'html.parser')
+   t = soup.find("table")
+   tr = t.findAll('tr')
+   morpholgy_list = []
+   for r in tr[1:]: 
+      morpholgy_list.append(str(r))
+   return morpholgy_list[0] if len(morpholgy_list) else "" 
+
 class morphology:
     def GET(self):
         querystr = ''
-        i = web.input()
-        web.header('Content-Type', 'application/json')
-        web.header('Access-Control-Allow-Origin', '*')
-        web.header('Access-Control-Allow-Credentials', 'true')
-        if hasattr(i,"txt") and i.txt[0] < u'~':
-            #english  
-            return "english not supported"
-        else:
-            p = model.get_morphology(i.txt)
-            morph = []
-            for i in p:
-                d = {'word':i.qword,'morphology1':i.morphology1,'morphology2':i.morphology2,'meaning':i.meaning,'root':i.root,'example':i.example};
-                morph.append(d)
-            #arrange in expected format
+        inp = web.input()
+        morph = []
+        if hasattr(inp,"txt") and inp.txt[0] < u'~':
+            #english or other landuage is not supported 
             return json.dumps(morph)
+        else:
+            p = model.get_morphology(inp.txt)
+            if bool(p) == False:
+                p = []
+                x = mydict
+                x.root  = ''
+                x.meaning = ''
+                x.morphology1 = get_lex_morph(model.get_bulkwater(inp.txt))
+                x.morphology2 = ''
+                x.example = ''
+                p.append(x)
+            #json format
+            if hasattr(inp,"json"):
+               web.header('Content-Type', 'application/json')
+               web.header('Access-Control-Allow-Origin', '*')
+               web.header('Access-Control-Allow-Credentials', 'true')
+               for i in p:
+                    d = {'word':inp.txt,'morphology1':i.morphology1,'morphology2':i.morphology2,'meaning':i.meaning,'root':model.get_arabFrombulk(i.root),'example':i.example.encode('utf-8')};
+                    morph.append(d)
+                   #arrange in expected format
+               return json.dumps(morph)
+            else:
+               for i in p:
+                   i.root = model.get_arabFrombulk(i.root)
+               return render.morphology(p,inp.txt)
 
 def isMobile():
     if web.ctx.env.has_key('HTTP_USER_AGENT'):
@@ -99,6 +138,8 @@ class search:
     def GET(self):
         querystr = ''
         i = web.input()
+        if hasattr(i,"value") and i.value is "morphology" :
+            return morphology.GET(self)
         if hasattr(i,"txt") and i.txt[0] < u'~':
             #english  
             querystr = 'select * from qaitems where upper(answer) like \'%' + i.txt.upper() + '%\''
@@ -136,7 +177,6 @@ allowed = (
     ('english','arabic')
 )
 
-            
 class Login:
     def GET(self):
         auth = web.ctx.env.get('HTTP_AUTHORIZATION')

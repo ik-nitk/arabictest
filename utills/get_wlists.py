@@ -10,7 +10,7 @@ except:
   exit(1)
 
 soup=BeautifulSoup(page , 'html.parser')
-nv = soup.find("div",{"class": "navigationPane"})
+select = soup.find("select",id="entryList")
 
-for elem in nv:
-   print 'http://corpus.quran.com/qurandictionary.jsp'+elem.get('href')
+for option in select:
+   print 'http://corpus.quran.com/qurandictionary.jsp?q='+option['value']
