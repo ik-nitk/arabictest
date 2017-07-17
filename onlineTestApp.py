@@ -77,6 +77,7 @@ class morphology:
         querystr = ''
         inp = web.input()
         morph = []
+        print inp
         if hasattr(inp,"txt") and inp.txt[0] < u'~':
             #english or other landuage is not supported 
             return json.dumps(morph)
