@@ -40,4 +40,9 @@ table.gridtable td {
    width   : 75%;
    float   : right;
 }
+
+.ui-mobile .ui-page .ui-content .ui-collapsible .ui-collapsible-heading .ui-btn-text {
+   white-space : normal !important;
+}
+
 </style>
