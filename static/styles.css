@@ -41,13 +41,4 @@ table.gridtable td {
    float   : right;
 }
 
-.ui-mobile .ui-page .ui-content .ui-collapsible .ui-collapsible-heading .ui-btn-text {
-   white-space : normal;
-}
-.ui-mobile .ui-page .ui-content .ui-collapsible .ui-collapsible-heading .ui-collapsible-heading-collapsed {
-   white-space : normal;
-   word-wrap : break-word;
-   overflow-wrap : break-word; 
-}
-
 </style>
