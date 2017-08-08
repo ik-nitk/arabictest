@@ -163,6 +163,7 @@ class qaitems:
 class add:
     def POST(self):
         i = web.input()
+	print i 
         #fisrt check if entry exist
         querystr = 'select 1 from qaitems where answer = \'' + i.answer + '\' limit 1'
         t = db.query(querystr)
