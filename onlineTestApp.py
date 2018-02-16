@@ -143,10 +143,14 @@ class randomList:
         n = 20
         if hasattr(i,"n"):
             n = int(i.n)
-        querystr = 'select * from qaitems order by random() limit ' + str(n)
-        todos = db.query(querystr); 
-        return todos 
-
+        if hasattr(i,"txt"):
+            txt = i.txt
+            querystr = 'select * from qaitems where tags like \'%' + str(i.txt) + '%\' order by random() limit ' + str(n)
+        else:
+            querystr = 'select * from qaitems order by random() limit ' + str(n)
+        todos = db.query(querystr);
+        var   qalist = [{'q': todo.question , 'a': todo.answer} for todo in todos]
+        return json.dumps(qalist) 
 
 
 class search:
