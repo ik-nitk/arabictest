@@ -47,6 +47,7 @@ urls = (
     '/search','search',
     '/test','test',
     '/login' , 'Login', 
+    '/randoml' , 'randomList', 
     '/morphology' , 'morphology' 
 )
 
@@ -132,6 +133,19 @@ class test:
             querystr = 'select * from qaitems order by random() limit 15'
         todos = db.query(querystr); 
         return render.test(todos,txt,ismobile=isMobile())
+
+
+class randomList:
+    def GET(self):
+        querystr = ''
+        txt = '' 
+        i = web.input()
+        n = 20
+        if hasattr(i,"n"):
+            n = int(i.n)
+        querystr = 'select * from qaitems order by random() limit ' + str(n)
+        todos = db.query(querystr); 
+        return todos 
 
 
 
