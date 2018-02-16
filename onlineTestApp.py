@@ -149,7 +149,7 @@ class randomList:
         else:
             querystr = 'select * from qaitems order by random() limit ' + str(n)
         todos = db.query(querystr);
-        var   qalist = [{'q': todo.question , 'a': todo.answer} for todo in todos]
+        qalist = [{'q': todo.question , 'a': todo.answer} for todo in todos]
         return json.dumps(qalist) 
 
 
