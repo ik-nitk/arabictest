@@ -141,6 +141,9 @@ class randomList:
         txt = '' 
         i = web.input()
         n = 20
+        web.header('Content-Type', 'application/json')
+        web.header('Access-Control-Allow-Origin', '*')
+        web.header('Access-Control-Allow-Credentials', 'true')
         if hasattr(i,"n"):
             n = int(i.n)
         if hasattr(i,"txt"):
