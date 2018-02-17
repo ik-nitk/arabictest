@@ -47,6 +47,7 @@ urls = (
     '/search','search',
     '/test','test',
     '/login' , 'Login', 
+    '/guess' , 'guess', 
     '/randoml' , 'randomList', 
     '/morphology' , 'morphology' 
 )
@@ -120,6 +121,10 @@ def isMobile():
 class index:
     def GET(self):
         return render.index()
+
+class guess:
+    def GET(self):
+        return render.guess()
 
 class test:
     def GET(self):

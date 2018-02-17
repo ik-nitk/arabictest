@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" type="text/css">
+   <script type="text/javascript">
+   function speak(text,lan,onend) {
+       var u = new SpeechSynthesisUtterance();
+       u.text = text;
+       u.lang = lan;
+       u.rate = 1;
+       u.onend = onend;
+       speechSynthesis.speak(u);
+   }
+   speak_english = (text) => {
+      if (document.getElementById('smode').checked) {
+         return new Promise(resolve => {
+          speak(text,'en-EN',resolve);
+         });
+      } else {
+        return Promise.resolve(); 
+      }
+   }
+   speak_arabic = (text) => {
+      if (document.getElementById('smode').checked) {
+         return new Promise(resolve => {
+          speak(text,'ar-AR',resolve);
+         });
+      } else {
+        return Promise.resolve(); 
+      }    
+   }
+   //global variables
+   var isPaused = false; 
+   const delay = ms => new Promise( (resolve,reject) => {
+                if (isPaused) reject(Error("paused"));
+                else setTimeout( resolve, ms ) 
+              });
+
+   function get(url) {
+      // Return a new promise.
+      return new Promise(function(resolve, reject) {
+      // Do the usual XHR stuff
+      var req = new XMLHttpRequest();
+      req.open('GET', url);
+
+      req.onload = function() {
+        // This is called even on 404 etc
+        // so check the status
+        if (req.status == 200) {
+        // Resolve the promise with the response text
+        resolve(req.response);
+        }
+        else {
+        // Otherwise reject with the status text
+        // which will hopefully be a meaningful error
+        reject(Error(req.statusText));
+        }
+        };
+
+      // Handle network errors
+      req.onerror = function() {
+        reject(Error("Network Error"));
+        };
+
+      // Make the request
+      req.send();
+      });
+    }
+    show = (q,a) => {
+      document.getElementById('q').innerHTML = q;
+      document.getElementById('a').innerHTML = a;
+    }
+    clear = () => {
+      document.getElementById('q').innerHTML = "";
+      document.getElementById('a').innerHTML = "";     
+    }
+    show_Q = (O) => {
+      show(O.q,"");     
+    }
+    show_A = (O) => {
+      show(O.q,O.a);
+    }
+    function reset() {
+      document.getElementById("start").disabled = false;
+      clear();
+    }
+    function repeat() {
+      // get random object
+      O = qaList[Math.floor((Math.random() * qaList.length))];
+      speak_Q = speak_arabic;
+      speak_A = speak_english;
+      if ('ENGLISH' === document.querySelector('input[name="chooselan"]:checked').value) {
+        O = {q:O.a, a:O.q};
+        speak_Q = speak_english;
+        speak_A = speak_arabic;
+      }
+      if (isPaused) {
+        reset();
+        return;
+      }  
+      show_Q(O);
+      speak_Q(O.q).then(()=> {
+        delay(4000).then(()=>{
+          show_A(O);
+          speak_A(O.a).then(()=>{
+              delay(4000).then(()=>{
+              clear();
+              repeat();
+            }).catch((e)=>{
+              reset();
+            });
+          });  
+        }).catch((e)=>{
+          reset();
+        });
+      });     
+    }
+    var N = 20;
+    var qaList = {};
+    function pause() {
+      isPaused = true;
+      document.getElementById("start").disabled = true;
+    }
+    function start() { 
+     clear(); 
+     isPaused = false;    
+     N = document.getElementById('n1').value;
+     get("/randoml?n="+N).then(JSON.parse).then(function(response) {
+       qaList = response;
+       repeat();
+     })
+    }
+   </script>
+   <style>
+     h1 { color: #FF9900; font-family: 'Helvetica Neue', sans-serif; font-size: 30px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+
+h2 { color: #eee; font-family: 'Open Sans', sans-serif; font-size: 25px; font-weight: 300; line-height: 32px; margin: 0 0 72px; text-align: center; }
+
+p { color: #333; font-family: sans-serif; font-size: 15px; line-height: 1.3; margin: 0 0 24px; text-align: justify; text-justify: inter-word; }
+
+   html,
+   body {
+     background-color: #f9f9f9;
+   }
+   button {
+     width:49%;
+   }
+   .container {
+     display: flex;
+     justify-content: center;
+   }
+   .center {
+     width: 80%;
+   }
+   </style>
+ </head>
+ <body>
+   <div class="container">
+   <div class="center">
+   <h1> Guess the translation </h1>
+   <p>
+       As-salam-alai-kum, 
+       <br>
+       In this exercise you will be presented with 20 sentences. You have to guess the translations for each sentense.  The answer will be presented after 4 seconds. If you are driving, you can enable speech mode to listen while you are driving. Each questions will be presented again and again. Don't worry if you miss to answer. Insha-allah with more pratice i am hoping we can learn many sentences.  
+   </p>
+    <button id='start' name="button" style="display:inline;" class="btn btn-outline-dark" onClick="start()">Start</button>
+    <button id='pause' name="button" style="display:inline;" class="btn btn-outline-dark" onClick="pause()">Stop</button>
+   <table class="table">
+     <tr>
+         <td>
+            <form>
+            <p>Speech mode</p>
+            <input id='smode' type="checkbox" name="smode" value="smode">
+            </form> 
+         </td>
+         <td>
+            <form>
+              <p>Preferred language</p> 
+ <input type="radio" name="chooselan" checked value="ENGLISH"><label for="ENGLISH"> English</label>
+ <input type="radio" name="chooselan" value="ARABIC"><label for="ARABIC"> Arabic</label><br>
+            </form> 
+         </td>
+         <td>
+            <form>
+              <p>Number of sentences</p>
+              <input type="text" id='n1' name="number" value="20">
+            </form> 
+         </td>
+     </tr>
+   </table>
+   <table class="table text-center table-striped"> 
+   <tr>
+     <td><div class="h1" id="q"> </div></td>
+   </tr>
+   <tr>
+     <td><div class="h2" id="a"> </div></td>
+   </tr>
+   </table>
+   </div>
+   </div>
+ </body>
+</html>
