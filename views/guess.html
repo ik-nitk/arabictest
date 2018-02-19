@@ -26,7 +26,7 @@
    speak_arabic = (text) => {
       if (document.getElementById('smode').checked) {
          return new Promise(resolve => {
-          speak(text,'ar-AR',resolve);
+          speak(text,'ar-AE',resolve);
          });
       } else {
         return Promise.resolve(); 
